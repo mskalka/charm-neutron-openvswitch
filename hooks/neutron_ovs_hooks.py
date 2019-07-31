@@ -110,7 +110,18 @@ def upgrade_charm():
 
 @hooks.hook('neutron-plugin-relation-changed')
 @hooks.hook('config-changed')
+def config_changed_wrapper():
+    if config('restart-deamon-safe-mode'):
+        config_changed()
+    else:
+        config_changed_restart()
+
+
 @restart_on_change(restart_map())
+def config_changed_restart():
+    config_changed()
+
+
 def config_changed():
     # if we are paused, delay doing any config changed hooks.
     # It is forced on the resume.
@@ -143,6 +154,7 @@ def config_changed():
         neutron_plugin_joined(
             relation_id=rid,
             request_restart=request_nova_compute_restart)
+    
 
 
 @hooks.hook('neutron-plugin-api-relation-changed')

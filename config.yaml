@@ -338,3 +338,10 @@ options:
       Can be used to avoid excessive memory consumption.
       WARNING: Should be NOT LESS than 25.
       (Available from Stein)
+  restart-deamon-safe-mode:
+    type: boolean
+    default: false
+    description: |
+      Set true to disable automatic restart of the neutron-openvswitch agent on
+      a charm upgrade. Instead use the 'restart-agent' action following a
+      successful upgrade.
